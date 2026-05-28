@@ -7,23 +7,21 @@
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap');
 
-  :root {
-    --snake-head:#22c55e; --red:#f87171; --purple:#a78bfa;
-    --sun:#fbbf24; --shadow:rgba(0,0,0,0.12);
+  :root{
+    --green:#22c55e; --green-dk:#15803d; --red:#f87171; --red-dk:#b91c1c;
+    --purple:#a78bfa; --sun:#fbbf24; --shadow:rgba(0,0,0,0.12);
   }
-  *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
-
-  html, body {
-    width:100%; height:100%;
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html,body{
+    width:100%;min-height:100%;
     font-family:'Nunito',sans-serif;
     background:linear-gradient(180deg,#bae6fd 0%,#e0f2fe 40%,#bbf7d0 100%);
-    display:flex; flex-direction:column; align-items:center;
-    overflow-x:hidden; overflow-y:auto;
-    position:relative;
+    display:flex;flex-direction:column;align-items:center;
+    overflow-x:hidden;position:relative;
   }
 
-  /* ── Clouds & Sun ── */
-  .cloud{position:fixed;background:white;border-radius:50px;opacity:0.8;pointer-events:none;z-index:0;}
+  /* ── Atmosphere ── */
+  .cloud{position:fixed;background:white;border-radius:50px;opacity:.8;pointer-events:none;z-index:0;}
   .cloud::before,.cloud::after{content:'';position:absolute;background:white;border-radius:50%;}
   .cloud-1{width:120px;height:40px;top:8%;left:-130px;animation:drift 18s linear infinite;}
   .cloud-1::before{width:60px;height:60px;top:-30px;left:15px;}.cloud-1::after{width:40px;height:40px;top:-18px;left:55px;}
@@ -44,132 +42,178 @@
     padding:12px 16px 6px;gap:10px;
   }
   .header h1{
-    font-family:'Fredoka One',cursive;
-    font-size:clamp(1.5rem,4vw,2.4rem);
-    color:#065f46;
-    text-shadow:2px 2px 0 #a7f3d0,4px 4px 0 rgba(0,0,0,0.07);
-    letter-spacing:1px;
-    flex:1; text-align:center;
+    font-family:'Fredoka One',cursive;font-size:clamp(1.4rem,4vw,2.2rem);
+    color:#065f46;text-shadow:2px 2px 0 #a7f3d0,4px 4px 0 rgba(0,0,0,.07);
+    letter-spacing:1px;flex:1;text-align:center;
   }
-  .header .snake-emoji{display:inline-block;animation:wiggle 1s ease-in-out infinite;}
+  .snake-emoji{display:inline-block;animation:wiggle 1s ease-in-out infinite;}
   @keyframes wiggle{0%,100%{transform:rotate(-8deg)}50%{transform:rotate(8deg)}}
 
-  /* Music button — lives in header now */
   #musicToggle{
-    flex-shrink:0;
-    background:white;border:3px solid #d1fae5;border-radius:50%;
-    width:44px;height:44px;font-size:1.2rem;
-    cursor:pointer;box-shadow:0 3px 10px var(--shadow);
-    display:flex;align-items:center;justify-content:center;
+    flex-shrink:0;background:white;border:3px solid #d1fae5;border-radius:50%;
+    width:44px;height:44px;font-size:1.2rem;cursor:pointer;
+    box-shadow:0 3px 10px var(--shadow);display:flex;align-items:center;justify-content:center;
     transition:transform .15s,background .15s;z-index:10;
   }
   #musicToggle:hover{transform:scale(1.1);}
   #musicToggle.on{background:#dcfce7;border-color:#22c55e;}
 
   /* ── Screens ── */
-  .screen{display:none;position:relative;z-index:10;width:100%;max-width:660px;padding:0 10px 16px;}
+  .screen{display:none;position:relative;z-index:10;width:100%;max-width:680px;padding:0 10px 12px;}
   .screen.active{display:block;}
   #menuScreen{text-align:center;}
 
   /* Mode cards */
   .mode-cards{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin:10px 0;}
-  .mode-card{background:white;border-radius:22px;padding:16px 20px;cursor:pointer;
+  .mode-card{background:white;border-radius:22px;padding:15px 18px;cursor:pointer;
     border:4px solid transparent;box-shadow:0 5px 18px var(--shadow);
-    transition:transform .15s,border-color .15s;min-width:140px;flex:1;max-width:175px;}
+    transition:transform .15s,border-color .15s;min-width:130px;flex:1;max-width:170px;}
   .mode-card:hover{transform:translateY(-3px) scale(1.03);}
-  .mode-card.selected{border-color:var(--snake-head);background:#f0fdf4;}
-  .mode-card .icon{font-size:2.2rem;display:block;margin-bottom:6px;}
-  .mode-card .label{font-family:'Fredoka One',cursive;font-size:1.1rem;color:#065f46;}
-  .mode-card .desc{font-size:0.75rem;color:#6b7280;margin-top:3px;}
+  .mode-card.selected{border-color:var(--green);background:#f0fdf4;}
+  .mode-card .icon{font-size:2rem;display:block;margin-bottom:5px;}
+  .mode-card .label{font-family:'Fredoka One',cursive;font-size:1.05rem;color:#065f46;}
+  .mode-card .desc{font-size:.73rem;color:#6b7280;margin-top:2px;}
 
   /* Settings panel */
-  .settings-panel{background:white;border-radius:22px;padding:16px 20px;
-    box-shadow:0 5px 18px var(--shadow);margin:8px 0 14px;text-align:left;}
-  .settings-panel h3{font-family:'Fredoka One',cursive;color:#065f46;font-size:1.1rem;margin-bottom:12px;}
-  .setting-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap;}
-  .setting-row label{font-weight:700;color:#374151;min-width:86px;font-size:0.88rem;}
-
-  .btn-group{display:flex;gap:5px;flex-wrap:wrap;}
-  .tog-btn{padding:5px 11px;border-radius:50px;font-family:'Fredoka One',cursive;
-    font-size:0.82rem;cursor:pointer;transition:all .12s;border:3px solid;}
-
-  /* Range buttons — green tint */
+  .settings-panel{background:white;border-radius:22px;padding:14px 18px;
+    box-shadow:0 5px 18px var(--shadow);margin:8px 0 10px;text-align:left;}
+  .settings-panel h3{font-family:'Fredoka One',cursive;color:#065f46;font-size:1.05rem;margin-bottom:10px;}
+  .setting-row{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap;}
+  .setting-row label{font-weight:700;color:#374151;min-width:82px;font-size:.85rem;}
+  .btn-group{display:flex;gap:4px;flex-wrap:wrap;}
+  .tog-btn{padding:5px 10px;border-radius:50px;font-family:'Fredoka One',cursive;
+    font-size:.8rem;cursor:pointer;transition:all .12s;border:3px solid;}
   .range-btn{border-color:#d1fae5;background:#f0fdf4;color:#065f46;}
   .range-btn:hover{background:#d1fae5;}
-  .range-btn.active{background:var(--snake-head);border-color:#15803d;color:white;}
-
-  /* Case buttons — purple tint */
+  .range-btn.active{background:var(--green);border-color:var(--green-dk);color:white;}
   .case-btn{border-color:#ede9fe;background:#f5f3ff;color:#5b21b6;}
   .case-btn.active{background:var(--purple);border-color:#6d28d9;color:white;}
-
-  /* Speed buttons — amber tint */
   .speed-btn{border-color:#fef3c7;background:#fffbeb;color:#92400e;}
   .speed-btn.active{background:var(--sun);border-color:#d97706;color:white;}
-
-  /* Board size buttons — blue tint */
   .size-btn{border-color:#bfdbfe;background:#eff6ff;color:#1e40af;}
   .size-btn.active{background:#3b82f6;border-color:#1d4ed8;color:white;}
+  .ctrl-pos-btn{border-color:#fce7f3;background:#fdf2f8;color:#9d174d;}
+  .ctrl-pos-btn.active{background:#ec4899;border-color:#be185d;color:white;}
 
-  .big-btn{display:inline-block;padding:14px 36px;border-radius:50px;
+  .big-btn{display:inline-block;padding:13px 34px;border-radius:50px;
     background:linear-gradient(135deg,#22c55e,#16a34a);color:white;
-    font-family:'Fredoka One',cursive;font-size:1.3rem;border:none;cursor:pointer;
-    box-shadow:0 5px 0 #15803d,0 7px 18px rgba(34,197,94,0.35);
+    font-family:'Fredoka One',cursive;font-size:1.25rem;border:none;cursor:pointer;
+    box-shadow:0 5px 0 var(--green-dk),0 7px 18px rgba(34,197,94,.35);
     transition:transform .1s,box-shadow .1s;letter-spacing:1px;}
   .big-btn:hover{transform:translateY(-2px);}
-  .big-btn:active{transform:translateY(3px);box-shadow:0 2px 0 #15803d;}
+  .big-btn:active{transform:translateY(3px);box-shadow:0 2px 0 var(--green-dk);}
 
-  /* ── Game screen ── */
+  /* ── Game screen layout ── */
   #gameScreen{display:none;flex-direction:column;align-items:center;}
   #gameScreen.active{display:flex;}
 
   .game-hud{width:100%;display:flex;justify-content:space-between;
-    align-items:center;padding:6px 2px;gap:8px;}
-  .hud-box{background:white;border-radius:14px;padding:6px 14px;
-    box-shadow:0 3px 10px var(--shadow);text-align:center;min-width:64px;}
-  .hud-label{font-size:0.65rem;font-weight:800;color:#9ca3af;text-transform:uppercase;letter-spacing:1px;}
-  .hud-value{font-family:'Fredoka One',cursive;font-size:1.3rem;color:#065f46;}
-  .next-box{background:linear-gradient(135deg,#fef9c3,#fef08a);border-radius:14px;
-    padding:6px 14px;box-shadow:0 3px 10px var(--shadow);text-align:center;min-width:72px;}
-  .next-label{font-size:0.65rem;font-weight:800;color:#a16207;text-transform:uppercase;}
-  .next-value{font-family:'Fredoka One',cursive;font-size:1.5rem;color:#92400e;}
+    align-items:center;padding:5px 2px;gap:6px;}
+  .hud-box{background:white;border-radius:13px;padding:5px 12px;
+    box-shadow:0 3px 10px var(--shadow);text-align:center;min-width:58px;}
+  .hud-label{font-size:.62rem;font-weight:800;color:#9ca3af;text-transform:uppercase;letter-spacing:1px;}
+  .hud-value{font-family:'Fredoka One',cursive;font-size:1.25rem;color:#065f46;}
+  .next-box{background:linear-gradient(135deg,#fef9c3,#fef08a);border-radius:13px;
+    padding:5px 14px;box-shadow:0 3px 10px var(--shadow);text-align:center;min-width:68px;}
+  .next-label{font-size:.62rem;font-weight:800;color:#a16207;text-transform:uppercase;}
+  .next-value{font-family:'Fredoka One',cursive;font-size:1.45rem;color:#92400e;}
 
-  #canvasWrap{position:relative;line-height:0;}
-  canvas{border-radius:16px;box-shadow:0 6px 24px rgba(0,0,0,0.18);
-    display:block;width:100%;height:auto;touch-action:none;}
+  /* Game arena = canvas + optional side panels */
+  .game-arena{
+    display:flex;align-items:center;justify-content:center;
+    gap:6px;width:100%;
+  }
+  #canvasWrap{position:relative;line-height:0;flex-shrink:0;}
+  canvas{border-radius:14px;box-shadow:0 6px 24px rgba(0,0,0,.18);
+    display:block;touch-action:none;}
 
-  .game-controls{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;justify-content:center;}
-  .ctrl-btn{padding:9px 20px;border-radius:50px;border:none;font-family:'Fredoka One',cursive;
-    font-size:0.95rem;cursor:pointer;box-shadow:0 3px 0 rgba(0,0,0,0.15);transition:transform .1s;}
-  .ctrl-btn:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(0,0,0,0.15);}
-  .btn-pause{background:var(--sun);color:#92400e;}
-  .btn-quit{background:var(--red);color:white;}
+  /* Side control panel */
+  .side-panel{
+    display:flex;flex-direction:column;align-items:center;
+    gap:6px;flex-shrink:0;
+  }
+  .side-panel.hidden{display:none;}
 
-  .dpad{display:grid;grid-template-columns:44px 44px 44px;
-    grid-template-rows:44px 44px 44px;gap:4px;margin-top:8px;}
-  .dpad-btn{background:white;border:3px solid #d1d5db;border-radius:12px;font-size:1.2rem;
+  /* D-pad inside side panel */
+  .dpad{display:grid;grid-template-columns:40px 40px 40px;
+    grid-template-rows:40px 40px 40px;gap:3px;}
+  .dpad-btn{background:white;border:3px solid #d1d5db;border-radius:10px;font-size:1.1rem;
     cursor:pointer;display:flex;align-items:center;justify-content:center;
     box-shadow:0 3px 0 #9ca3af;transition:transform .1s;user-select:none;-webkit-user-select:none;}
   .dpad-btn:active{transform:translateY(2px);box-shadow:0 1px 0 #9ca3af;background:#f3f4f6;}
+  .dpad-center{background:#f9fafb;border-radius:10px;}
+
+  /* Action buttons stacked in side panel */
+  .side-actions{display:flex;flex-direction:column;gap:5px;align-items:center;}
+  .ctrl-btn{padding:8px 14px;border-radius:50px;border:none;font-family:'Fredoka One',cursive;
+    font-size:.88rem;cursor:pointer;box-shadow:0 3px 0 rgba(0,0,0,.15);transition:transform .1s;
+    white-space:nowrap;}
+  .ctrl-btn:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(0,0,0,.15);}
+  .btn-pause{background:var(--sun);color:#92400e;}
+  .btn-quit{background:var(--red);color:white;}
+
+  /* Swipe zone overlay on the canvas for touch devices when dpad=disabled */
+  #swipeZone{
+    position:absolute;inset:0;border-radius:14px;
+    background:transparent;touch-action:none;cursor:crosshair;
+    display:none; /* shown only when layout=disabled */
+    z-index:5;
+  }
 
   /* ── Overlays ── */
-  .overlay{position:fixed;inset:0;background:rgba(0,0,0,0.45);
+  .overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);
     display:flex;align-items:center;justify-content:center;
     z-index:100;backdrop-filter:blur(3px);}
   .overlay.hidden{display:none;}
-  .overlay-box{background:white;border-radius:26px;padding:32px 36px;text-align:center;
-    max-width:340px;width:90%;box-shadow:0 18px 50px rgba(0,0,0,0.28);
+  .overlay-box{background:white;border-radius:26px;padding:30px 34px;text-align:center;
+    max-width:330px;width:90%;box-shadow:0 18px 50px rgba(0,0,0,.28);
     animation:popIn .22s cubic-bezier(.34,1.56,.64,1);}
-  @keyframes popIn{from{transform:scale(0.6);opacity:0}to{transform:scale(1);opacity:1}}
-  .overlay-box h2{font-family:'Fredoka One',cursive;font-size:1.9rem;margin-bottom:8px;}
-  .overlay-box p{color:#6b7280;margin-bottom:18px;font-size:.95rem;font-weight:600;}
+  @keyframes popIn{from{transform:scale(.6);opacity:0}to{transform:scale(1);opacity:1}}
+  .overlay-box h2{font-family:'Fredoka One',cursive;font-size:1.8rem;margin-bottom:8px;}
+  .overlay-box p{color:#6b7280;margin-bottom:16px;font-size:.92rem;font-weight:600;}
   .overlay-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
 
   /* ── Toast ── */
-  #toast{position:fixed;top:70px;left:50%;transform:translateX(-50%) translateY(-20px);
-    background:#065f46;color:white;font-family:'Fredoka One',cursive;font-size:1.2rem;
-    padding:10px 24px;border-radius:50px;box-shadow:0 5px 18px rgba(0,0,0,0.2);
+  #toast{position:fixed;top:68px;left:50%;transform:translateX(-50%) translateY(-20px);
+    background:#065f46;color:white;font-family:'Fredoka One',cursive;font-size:1.1rem;
+    padding:9px 22px;border-radius:50px;box-shadow:0 5px 18px rgba(0,0,0,.2);
     opacity:0;transition:opacity .2s,transform .2s;z-index:200;pointer-events:none;white-space:nowrap;}
   #toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+  /* ── Footer ── */
+  footer{
+    position:relative;z-index:10;
+    width:100%;max-width:680px;
+    background:rgba(255,255,255,.75);
+    backdrop-filter:blur(6px);
+    border-radius:22px 22px 0 0;
+    padding:16px 20px 20px;
+    margin-top:auto;
+    text-align:center;
+  }
+  .footer-title{
+    font-family:'Fredoka One',cursive;
+    font-size:1.3rem;color:#065f46;
+    margin-bottom:2px;
+  }
+  .footer-tagline{font-size:.8rem;color:#6b7280;margin-bottom:12px;}
+  .footer-btns{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:12px;}
+  .footer-btn{
+    display:inline-flex;align-items:center;gap:6px;
+    padding:8px 16px;border-radius:50px;border:none;cursor:pointer;
+    font-family:'Fredoka One',cursive;font-size:.88rem;
+    text-decoration:none;transition:transform .12s,box-shadow .12s;
+    box-shadow:0 3px 0 rgba(0,0,0,.15);
+  }
+  .footer-btn:hover{transform:translateY(-2px);}
+  .footer-btn:active{transform:translateY(1px);}
+  .btn-kofi{background:#ff5e5b;color:white;}
+  .btn-patreon{background:#ff424d;color:white;}
+  .btn-github{background:#24292e;color:white;}
+  .footer-copy{font-size:.72rem;color:#9ca3af;line-height:1.6;}
+  .footer-copy a{color:#6b7280;text-decoration:none;}
+  .footer-copy a:hover{text-decoration:underline;}
+  .footer-divider{border:none;border-top:1px solid #e5e7eb;margin:10px 0;}
 </style>
 </head>
 <body>
@@ -178,7 +222,7 @@
 <div class="cloud cloud-3"></div>
 <div class="sun"></div>
 
-<!-- HEADER with music button -->
+<!-- ══ HEADER ══ -->
 <div class="header">
   <h1><span class="snake-emoji">🐍</span> Learn &amp; Slither!</h1>
   <button id="musicToggle" onclick="toggleMusic()" title="Toggle Music" aria-label="Toggle Music">🎵</button>
@@ -201,7 +245,6 @@
   <div class="settings-panel">
     <h3>⚙️ Settings</h3>
 
-    <!-- Number range -->
     <div class="setting-row" id="numRangeRow">
       <label>Range</label>
       <div class="btn-group" id="numRange">
@@ -210,8 +253,6 @@
         <button class="tog-btn range-btn" data-start="1" data-end="20">1–20</button>
       </div>
     </div>
-
-    <!-- Letter range -->
     <div class="setting-row" id="letterRangeRow" style="display:none">
       <label>Range</label>
       <div class="btn-group" id="letterRange">
@@ -229,8 +270,6 @@
         <button class="tog-btn case-btn" data-case="mixed">Mix</button>
       </div>
     </div>
-
-    <!-- Shape range -->
     <div class="setting-row" id="shapeRangeRow" style="display:none">
       <label>Range</label>
       <div class="btn-group" id="shapeRange">
@@ -262,9 +301,31 @@
         <button class="tog-btn speed-btn" data-speed="90">⚡ Zoom</button>
       </div>
     </div>
+
+    <!-- D-pad position -->
+    <div class="setting-row">
+      <label>D-Pad</label>
+      <div class="btn-group" id="dpadPosGroup">
+        <button class="tog-btn ctrl-pos-btn" data-pos="left">◀ Left</button>
+        <button class="tog-btn ctrl-pos-btn" data-pos="both">◀▶ Both</button>
+        <button class="tog-btn ctrl-pos-btn active" data-pos="right">▶ Right</button>
+        <button class="tog-btn ctrl-pos-btn" data-pos="disabled">👆 Swipe</button>
+      </div>
+    </div>
+
+    <!-- Action buttons position (Pause / Menu) -->
+    <div class="setting-row">
+      <label>Buttons</label>
+      <div class="btn-group" id="btnPosGroup">
+        <button class="tog-btn ctrl-pos-btn" data-pos="left">◀ Left</button>
+        <button class="tog-btn ctrl-pos-btn" data-pos="both">◀▶ Both</button>
+        <button class="tog-btn ctrl-pos-btn active" data-pos="right">▶ Right</button>
+        <button class="tog-btn ctrl-pos-btn" data-pos="disabled">🚫 Hide</button>
+      </div>
+    </div>
   </div>
 
-  <div style="text-align:center">
+  <div style="text-align:center;margin-bottom:8px;">
     <button class="big-btn" onclick="startGame()">▶ Play!</button>
   </div>
 </div>
@@ -285,35 +346,65 @@
       <div class="hud-value" id="lengthDisplay">3</div>
     </div>
   </div>
-  <div id="canvasWrap">
-    <canvas id="gameCanvas"></canvas>
-  </div>
-  <div class="game-controls">
-    <button class="ctrl-btn btn-pause" id="pauseBtn" onclick="togglePause()">⏸ Pause</button>
-    <button class="ctrl-btn btn-quit"  onclick="confirmQuit()">🏠 Menu</button>
-  </div>
-  <div class="dpad">
-    <div></div>
-    <button class="dpad-btn" onclick="setDir(0,-1)">▲</button>
-    <div></div>
-    <button class="dpad-btn" onclick="setDir(-1,0)">◀</button>
-    <div style="background:#f9fafb;border-radius:12px;"></div>
-    <button class="dpad-btn" onclick="setDir(1,0)">▶</button>
-    <div></div>
-    <button class="dpad-btn" onclick="setDir(0,1)">▼</button>
-    <div></div>
-  </div>
-</div>
+
+  <!-- Arena: left panel | canvas | right panel -->
+  <div class="game-arena" id="gameArena">
+    <!-- LEFT SIDE PANEL -->
+    <div class="side-panel hidden" id="leftPanel">
+      <div class="dpad" id="dpadLeft">
+        <div></div>
+        <button class="dpad-btn" onclick="setDir(0,-1)">▲</button>
+        <div></div>
+        <button class="dpad-btn" onclick="setDir(-1,0)">◀</button>
+        <div class="dpad-center"></div>
+        <button class="dpad-btn" onclick="setDir(1,0)">▶</button>
+        <div></div>
+        <button class="dpad-btn" onclick="setDir(0,1)">▼</button>
+        <div></div>
+      </div>
+      <div class="side-actions" id="actionsLeft">
+        <button class="ctrl-btn btn-pause" id="pauseBtnL" onclick="togglePause()">⏸</button>
+        <button class="ctrl-btn btn-quit" onclick="confirmQuit()">🏠</button>
+      </div>
+    </div>
+
+    <!-- CANVAS -->
+    <div id="canvasWrap">
+      <canvas id="gameCanvas"></canvas>
+      <!-- Swipe zone overlay (used when dpad=disabled) -->
+      <div id="swipeZone"></div>
+    </div>
+
+    <!-- RIGHT SIDE PANEL -->
+    <div class="side-panel hidden" id="rightPanel">
+      <div class="dpad" id="dpadRight">
+        <div></div>
+        <button class="dpad-btn" onclick="setDir(0,-1)">▲</button>
+        <div></div>
+        <button class="dpad-btn" onclick="setDir(-1,0)">◀</button>
+        <div class="dpad-center"></div>
+        <button class="dpad-btn" onclick="setDir(1,0)">▶</button>
+        <div></div>
+        <button class="dpad-btn" onclick="setDir(0,1)">▼</button>
+        <div></div>
+      </div>
+      <div class="side-actions" id="actionsRight">
+        <button class="ctrl-btn btn-pause" id="pauseBtnR" onclick="togglePause()">⏸</button>
+        <button class="ctrl-btn btn-quit" onclick="confirmQuit()">🏠</button>
+      </div>
+    </div>
+  </div><!-- end game-arena -->
+</div><!-- end gameScreen -->
 
 <!-- ══ OVERLAYS ══ -->
 <div class="overlay hidden" id="gameOverOverlay">
   <div class="overlay-box">
     <h2>😢 Game Over!</h2>
     <p id="gameOverMsg">Your snake got too small!</p>
-    <div style="font-family:'Fredoka One',cursive;font-size:1.4rem;color:#065f46;margin-bottom:16px" id="finalScore"></div>
+    <div style="font-family:'Fredoka One',cursive;font-size:1.3rem;color:#065f46;margin-bottom:14px" id="finalScore"></div>
     <div class="overlay-btns">
-      <button class="big-btn" onclick="startGame()" style="font-size:1.05rem;padding:11px 26px">🔄 Again</button>
-      <button class="ctrl-btn btn-quit" onclick="goMenu()" style="font-size:.95rem;padding:11px 20px">🏠 Menu</button>
+      <button class="big-btn" onclick="startGame()" style="font-size:1rem;padding:10px 24px">🔄 Again</button>
+      <button class="ctrl-btn btn-quit" onclick="goMenu()" style="font-size:.9rem;padding:10px 18px">🏠 Menu</button>
     </div>
   </div>
 </div>
@@ -321,7 +412,7 @@
   <div class="overlay-box">
     <h2>⏸ Paused</h2><p>Take a breather!</p>
     <div class="overlay-btns">
-      <button class="big-btn" onclick="togglePause()" style="font-size:1.05rem;padding:11px 26px">▶ Continue</button>
+      <button class="big-btn" onclick="togglePause()" style="font-size:1rem;padding:10px 24px">▶ Continue</button>
     </div>
   </div>
 </div>
@@ -329,13 +420,36 @@
   <div class="overlay-box">
     <h2>🏠 Go Home?</h2><p>Your progress will be lost.</p>
     <div class="overlay-btns">
-      <button class="big-btn" onclick="goMenu()" style="font-size:1.05rem;padding:11px 26px;background:linear-gradient(135deg,#f87171,#ef4444);box-shadow:0 5px 0 #b91c1c">Yes, Quit</button>
-      <button class="ctrl-btn btn-pause" onclick="closeQuit()" style="font-size:.95rem;padding:11px 20px">Keep Playing</button>
+      <button class="big-btn" onclick="goMenu()" style="font-size:1rem;padding:10px 24px;background:linear-gradient(135deg,#f87171,#ef4444);box-shadow:0 5px 0 var(--red-dk)">Yes, Quit</button>
+      <button class="ctrl-btn btn-pause" onclick="closeQuit()" style="font-size:.9rem;padding:10px 18px">Keep Playing</button>
     </div>
   </div>
 </div>
 
 <div id="toast"></div>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <div class="footer-title">🐍 Learn &amp; Slither!</div>
+  <div class="footer-tagline">A free preschool learning game by NeumanGames™</div>
+  <div class="footer-btns">
+    <a class="footer-btn btn-kofi" href="https://ko-fi.com/neumangames" target="_blank" rel="noopener">
+      ☕ Ko-fi
+    </a>
+    <a class="footer-btn btn-patreon" href="https://patreon.com/NeumanGames" target="_blank" rel="noopener">
+      🎨 Patreon
+    </a>
+    <a class="footer-btn btn-github" href="https://github.com/NeumanGames" target="_blank" rel="noopener">
+      🐙 GitHub
+    </a>
+  </div>
+  <hr class="footer-divider">
+  <div class="footer-copy">
+    &copy; 2024–2025 NeumanGames™ &nbsp;·&nbsp; Free to play, always.<br>
+    Made with ❤️ by Tom &amp; Shia Neuman &nbsp;·&nbsp;
+    <a href="https://ko-fi.com/neumangames" target="_blank" rel="noopener">Support us</a>
+  </div>
+</footer>
 
 <script>
 // ══════════════════════════════════════════════════════
@@ -351,25 +465,19 @@ const SHAPES_LIST=[
   {name:'Pentagon',emoji:'⬠', color:'#38bdf8',draw:(c,x,y,r)=>{drawPoly(c,x,y,r,5,-Math.PI/2);}},
   {name:'Hexagon', emoji:'⬡', color:'#4ade80',draw:(c,x,y,r)=>{drawPoly(c,x,y,r,6,0);}},
 ];
-function drawStar(ctx,cx,cy,r,n){
-  const ir=r*0.45;ctx.beginPath();
+function drawStar(ctx,cx,cy,r,n){const ir=r*.45;ctx.beginPath();
   for(let i=0;i<n*2;i++){const a=(i*Math.PI/n)-Math.PI/2,rad=i%2===0?r:ir;
     i===0?ctx.moveTo(cx+Math.cos(a)*rad,cy+Math.sin(a)*rad):ctx.lineTo(cx+Math.cos(a)*rad,cy+Math.sin(a)*rad);}
-  ctx.closePath();ctx.fill();ctx.stroke();
-}
-function drawHeart(ctx,cx,cy,r){
-  const s=r*0.9;ctx.beginPath();
-  ctx.moveTo(cx,cy+s*0.8);
-  ctx.bezierCurveTo(cx-s*1.5,cy-s*0.4,cx-s*1.5,cy-s*1.2,cx,cy-s*0.4);
-  ctx.bezierCurveTo(cx+s*1.5,cy-s*1.2,cx+s*1.5,cy-s*0.4,cx,cy+s*0.8);
-  ctx.fill();ctx.stroke();
-}
-function drawPoly(ctx,cx,cy,r,sides,offset=0){
-  ctx.beginPath();
+  ctx.closePath();ctx.fill();ctx.stroke();}
+function drawHeart(ctx,cx,cy,r){const s=r*.9;ctx.beginPath();
+  ctx.moveTo(cx,cy+s*.8);
+  ctx.bezierCurveTo(cx-s*1.5,cy-s*.4,cx-s*1.5,cy-s*1.2,cx,cy-s*.4);
+  ctx.bezierCurveTo(cx+s*1.5,cy-s*1.2,cx+s*1.5,cy-s*.4,cx,cy+s*.8);
+  ctx.fill();ctx.stroke();}
+function drawPoly(ctx,cx,cy,r,sides,offset=0){ctx.beginPath();
   for(let i=0;i<sides;i++){const a=(2*Math.PI*i/sides)+offset;
     i===0?ctx.moveTo(cx+Math.cos(a)*r,cy+Math.sin(a)*r):ctx.lineTo(cx+Math.cos(a)*r,cy+Math.sin(a)*r);}
-  ctx.closePath();ctx.fill();ctx.stroke();
-}
+  ctx.closePath();ctx.fill();ctx.stroke();}
 
 // ══════════════════════════════════════════════════════
 //  STATE
@@ -382,13 +490,14 @@ let seriesStart=1,seriesEnd=5;
 let letterStart=0,letterEnd=4,letterCaseMode='upper';
 let shapeStart=0,shapeEnd=3;
 let gameSpeed=720;
-// Board config — driven by selection
-let COLS=10,ROWS=10;
-let CELL=40; // computed at runtime
+let COLS=10,ROWS=10,CELL=40;
 let canvas,ctx;
+// Control layout settings
+let dpadPos='right';   // left | right | both | disabled
+let btnPos='right';    // left | right | both | disabled
+// Touch tracking
 let touchStartX=0,touchStartY=0;
 
-// Bubble palette
 const BUBBLE_COLORS=[
   ['#fde68a','#d97706'],['#bfdbfe','#2563eb'],['#fce7f3','#be185d'],
   ['#d1fae5','#065f46'],['#ede9fe','#6d28d9'],['#ffedd5','#c2410c'],
@@ -401,25 +510,27 @@ const BUBBLE_COLORS=[
 function selectMode(m){
   mode=m;
   document.querySelectorAll('.mode-card').forEach(c=>c.classList.toggle('selected',c.dataset.mode===m));
-  document.getElementById('numRangeRow').style.display    = m==='numbers'?'':'none';
-  document.getElementById('letterRangeRow').style.display = m==='letters'?'':'none';
-  document.getElementById('letterCaseRow').style.display  = m==='letters'?'':'none';
-  document.getElementById('shapeRangeRow').style.display  = m==='shapes'?'':'none';
+  document.getElementById('numRangeRow').style.display    =m==='numbers'?'':'none';
+  document.getElementById('letterRangeRow').style.display =m==='letters'?'':'none';
+  document.getElementById('letterCaseRow').style.display  =m==='letters'?'':'none';
+  document.getElementById('shapeRangeRow').style.display  =m==='shapes'?'':'none';
 }
 
-function wireGroup(groupId,cb){
-  document.getElementById(groupId).addEventListener('click',e=>{
-    const btn=e.target.closest('[data-start],[data-end],.tog-btn');
-    if(!btn||!btn.closest('#'+groupId))return;
-    document.querySelectorAll('#'+groupId+' .tog-btn').forEach(b=>b.classList.remove('active'));
+function wireGroup(id,cb){
+  document.getElementById(id).addEventListener('click',e=>{
+    const btn=e.target.closest('.tog-btn');
+    if(!btn||!document.getElementById(id).contains(btn))return;
+    document.querySelectorAll('#'+id+' .tog-btn').forEach(b=>b.classList.remove('active'));
     btn.classList.add('active');
     if(cb)cb(btn);
   });
 }
-wireGroup('numRange',btn=>{seriesStart=+btn.dataset.start;seriesEnd=+btn.dataset.end;});
-wireGroup('letterRange',btn=>{letterStart=+btn.dataset.start;letterEnd=+btn.dataset.end;});
-wireGroup('shapeRange',btn=>{shapeStart=+btn.dataset.start;shapeEnd=+btn.dataset.end;});
-wireGroup('boardSizeGroup',btn=>{COLS=+btn.dataset.cols;ROWS=+btn.dataset.rows;});
+wireGroup('numRange',b=>{seriesStart=+b.dataset.start;seriesEnd=+b.dataset.end;});
+wireGroup('letterRange',b=>{letterStart=+b.dataset.start;letterEnd=+b.dataset.end;});
+wireGroup('shapeRange',b=>{shapeStart=+b.dataset.start;shapeEnd=+b.dataset.end;});
+wireGroup('boardSizeGroup',b=>{COLS=+b.dataset.cols;ROWS=+b.dataset.rows;});
+wireGroup('dpadPosGroup',b=>{dpadPos=b.dataset.pos;});
+wireGroup('btnPosGroup',b=>{btnPos=b.dataset.pos;});
 
 document.querySelectorAll('.case-btn').forEach(b=>b.addEventListener('click',()=>{
   document.querySelectorAll('.case-btn').forEach(x=>x.classList.remove('active'));
@@ -431,39 +542,66 @@ document.querySelectorAll('.speed-btn').forEach(b=>b.addEventListener('click',()
 }));
 
 // ══════════════════════════════════════════════════════
-//  CANVAS — fully responsive
-//  Fits within the available screen width, respecting DPR
+//  CONTROL LAYOUT — show/hide panels based on settings
+// ══════════════════════════════════════════════════════
+function applyControlLayout(){
+  const LP=document.getElementById('leftPanel');
+  const RP=document.getElementById('rightPanel');
+  const dpadL=document.getElementById('dpadLeft');
+  const dpadR=document.getElementById('dpadRight');
+  const actL=document.getElementById('actionsLeft');
+  const actR=document.getElementById('actionsRight');
+  const swipe=document.getElementById('swipeZone');
+
+  // Determine which panels are needed
+  const needLeft  = dpadPos==='left'||dpadPos==='both'||btnPos==='left'||btnPos==='both';
+  const needRight = dpadPos==='right'||dpadPos==='both'||btnPos==='right'||btnPos==='both';
+
+  LP.classList.toggle('hidden',!needLeft);
+  RP.classList.toggle('hidden',!needRight);
+
+  // Show/hide dpad grids per side
+  dpadL.style.display = (dpadPos==='left'||dpadPos==='both') ? 'grid':'none';
+  dpadR.style.display = (dpadPos==='right'||dpadPos==='both') ? 'grid':'none';
+
+  // Show/hide action buttons per side
+  actL.style.display = (btnPos==='left'||btnPos==='both') ? 'flex':'none';
+  actR.style.display = (btnPos==='right'||btnPos==='both') ? 'flex':'none';
+
+  // Swipe zone: show when dpad is disabled (canvas touch becomes direction input)
+  swipe.style.display = dpadPos==='disabled' ? 'block':'none';
+}
+
+// ══════════════════════════════════════════════════════
+//  CANVAS — responsive, respects side panels
 // ══════════════════════════════════════════════════════
 function setupCanvas(){
   canvas=document.getElementById('gameCanvas');
-  const wrap=document.getElementById('canvasWrap');
   const dpr=window.devicePixelRatio||1;
-
-  // Available width = screen width minus padding
-  const availW=Math.min(window.innerWidth-20, 640);
-  // Compute cell size to fill available width perfectly
-  CELL=Math.floor(availW/COLS);
-  // Logical pixel dimensions
+  const totalW=Math.min(window.innerWidth,680);
+  const padding=20;
+  // Reserve space for visible side panels (each panel is ~136px: 3*40+3*3+some gap)
+  const panelW=142;
+  const LP=document.getElementById('leftPanel');
+  const RP=document.getElementById('rightPanel');
+  const usedLeft  = LP.classList.contains('hidden')?0:panelW;
+  const usedRight = RP.classList.contains('hidden')?0:panelW;
+  const availW=totalW-padding-usedLeft-usedRight;
+  CELL=Math.max(16,Math.floor(availW/COLS));
   const logW=CELL*COLS, logH=CELL*ROWS;
-
-  // Physical pixels (sharp on HiDPI screens)
   canvas.width =Math.round(logW*dpr);
   canvas.height=Math.round(logH*dpr);
-  // CSS display size
   canvas.style.width =logW+'px';
   canvas.style.height=logH+'px';
-
   ctx=canvas.getContext('2d');
   ctx.scale(dpr,dpr);
-
-  // Constrain hud to same width as canvas
-  document.getElementById('gameHud').style.maxWidth=logW+'px';
+  // Size swipe zone to match canvas
+  const sz=document.getElementById('swipeZone');
+  sz.style.width=logW+'px';sz.style.height=logH+'px';
+  document.getElementById('gameHud').style.maxWidth=(logW+usedLeft+usedRight+12)+'px';
 }
 
-// Re-setup canvas on resize (orientation change, etc.)
-window.addEventListener('resize',()=>{
-  if(gameInterval||isPaused) setupCanvas();
-});
+window.addEventListener('resize',()=>{if(gameInterval||isPaused){applyControlLayout();setupCanvas();}});
 
 // ══════════════════════════════════════════════════════
 //  SEQUENCE
@@ -481,8 +619,7 @@ function buildSequence(){
       sequence.push({type:'letter',value:i,label});
     }
   } else {
-    const sl=SHAPES_LIST.slice(shapeStart,shapeEnd+1);
-    sequence=sl.map((s,i)=>({type:'shape',value:i,label:s.name,shape:s}));
+    sequence=SHAPES_LIST.slice(shapeStart,shapeEnd+1).map((s,i)=>({type:'shape',value:i,label:s.name,shape:s}));
   }
 }
 function getCurrentTarget(){return sequence[seqIdx%sequence.length];}
@@ -516,8 +653,7 @@ function getDistractors(target,count){
     const base=[...'ABCDEFGHIJKLMNOPQRSTUVWXYZ'];
     for(let i=0;i<26&&extra.length<5;i++){
       if(i!==target.value&&!pool.find(p=>p.value===i)){
-        const label=letterCaseMode==='lower'?base[i].toLowerCase():base[i];
-        extra.push({type:'letter',value:i,label});
+        extra.push({type:'letter',value:i,label:letterCaseMode==='lower'?base[i].toLowerCase():base[i]});
       }
     }
   } else {
@@ -533,12 +669,15 @@ function getDistractors(target,count){
 function startGame(){
   buildSequence();
   seqIdx=0;score=0;isPaused=false;captureHistory=[];
-  document.getElementById('pauseBtn').textContent='⏸ Pause';
+  applyControlLayout();
   setupCanvas();
   const mx=Math.floor(COLS/2),my=Math.floor(ROWS/2);
   snake=[{x:mx,y:my},{x:mx-1,y:my},{x:mx-2,y:my}];
   dir={x:1,y:0};nextDir={x:1,y:0};
   buildFoods();updateHUD();
+  // Sync pause button text on both sides
+  document.getElementById('pauseBtnL').textContent='⏸';
+  document.getElementById('pauseBtnR').textContent='⏸';
   showScreen('gameScreen');
   hideOverlay('gameOverOverlay');hideOverlay('quitOverlay');hideOverlay('pauseOverlay');
   if(gameInterval)clearInterval(gameInterval);
@@ -586,7 +725,6 @@ function drawFrame(){
   foods.forEach(drawFood);
   drawSnake();
 }
-
 function drawSnake(){
   ctx.lineCap='round';
   for(let i=0;i<snake.length-1;i++){
@@ -595,7 +733,7 @@ function drawSnake(){
     const bx=b.x*CELL+CELL/2,by=b.y*CELL+CELL/2;
     if(Math.abs(a.x-b.x)<=1&&Math.abs(a.y-b.y)<=1){
       ctx.strokeStyle=i===0?'#4ade80':'#86efac';
-      ctx.lineWidth=CELL*0.55;
+      ctx.lineWidth=CELL*.55;
       ctx.beginPath();ctx.moveTo(ax,ay);ctx.lineTo(bx,by);ctx.stroke();
     }
   }
@@ -603,7 +741,7 @@ function drawSnake(){
     const cx=seg.x*CELL+CELL/2,cy=seg.y*CELL+CELL/2,r=CELL/2-1;
     if(i===0){
       ctx.fillStyle='#22c55e';ctx.strokeStyle='#15803d';ctx.lineWidth=2.5;
-      ctx.beginPath();ctx.roundRect(seg.x*CELL+1,seg.y*CELL+1,CELL-2,CELL-2,CELL*0.38);
+      ctx.beginPath();ctx.roundRect(seg.x*CELL+1,seg.y*CELL+1,CELL-2,CELL-2,CELL*.38);
       ctx.fill();ctx.stroke();
       drawEyes(cx,cy,dir);
     } else {
@@ -612,16 +750,14 @@ function drawSnake(){
       const[bgC,stC]=hasCap?BUBBLE_COLORS[ci]:['#a7f3d0','#4ade80'];
       ctx.fillStyle=bgC;ctx.strokeStyle=stC;ctx.lineWidth=2;
       ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);ctx.fill();ctx.stroke();
-      ctx.fillStyle='rgba(255,255,255,0.32)';
+      ctx.fillStyle='rgba(255,255,255,.32)';
       ctx.beginPath();ctx.arc(cx-r*.25,cy-r*.3,r*.34,0,Math.PI*2);ctx.fill();
       if(hasCap)drawItemLabel(ctx,captureHistory[capIdx],cx,cy,r*.72);
     }
   });
 }
-
 function drawEyes(cx,cy,d){
-  const r=CELL*.12,off=CELL*.22;
-  let e1,e2;
+  const r=CELL*.12,off=CELL*.22;let e1,e2;
   if(d.x===1)      {e1={x:cx+off*.6,y:cy-off*.6};e2={x:cx+off*.6,y:cy+off*.6};}
   else if(d.x===-1){e1={x:cx-off*.6,y:cy-off*.6};e2={x:cx-off*.6,y:cy+off*.6};}
   else if(d.y===-1){e1={x:cx-off*.6,y:cy-off*.6};e2={x:cx+off*.6,y:cy-off*.6};}
@@ -632,7 +768,6 @@ function drawEyes(cx,cy,d){
     ctx.fillStyle='white';ctx.beginPath();ctx.arc(e.x+r*.3,e.y-r*.3,r*.35,0,Math.PI*2);ctx.fill();
   });
 }
-
 function drawFood(f){
   const cx=f.x*CELL+CELL/2,cy=f.y*CELL+CELL/2,r=CELL/2-Math.max(2,CELL*.06);
   const bounce=Math.sin(Date.now()/300+f.x*1.3+f.y*.9)*Math.min(2.5,CELL*.08);
@@ -642,15 +777,11 @@ function drawFood(f){
   ctx.strokeStyle=f.correct?'#f59e0b':'#ef4444';ctx.lineWidth=2.5;
   ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);ctx.fill();ctx.stroke();
   ctx.shadowBlur=0;
-  if(f.correct){
-    ctx.fillStyle='#f59e0b';ctx.font=`bold ${CELL*.28}px sans-serif`;
-    ctx.textAlign='right';ctx.textBaseline='top';
-    ctx.fillText('★',cx+r-1,cy-r+1);
-  }
+  if(f.correct){ctx.fillStyle='#f59e0b';ctx.font=`bold ${CELL*.28}px sans-serif`;
+    ctx.textAlign='right';ctx.textBaseline='top';ctx.fillText('★',cx+r-1,cy-r+1);}
   drawItemLabel(ctx,f.item,cx,cy,r*.7);
   ctx.restore();
 }
-
 function drawItemLabel(ctx,item,cx,cy,size){
   if(!item)return;
   ctx.save();
@@ -659,8 +790,7 @@ function drawItemLabel(ctx,item,cx,cy,size){
     item.shape.draw(ctx,cx,cy,size*.65);
   } else {
     ctx.fillStyle='#1e293b';ctx.textAlign='center';ctx.textBaseline='middle';
-    const fs=Math.max(size*1.05,8);
-    ctx.font=`900 ${fs}px 'Fredoka One',cursive`;
+    ctx.font=`900 ${Math.max(size*1.05,8)}px 'Fredoka One',cursive`;
     ctx.fillText(item.label,cx,cy+1);
   }
   ctx.restore();
@@ -680,10 +810,14 @@ function updateHUD(){
 //  INPUT
 // ══════════════════════════════════════════════════════
 function setupInput(){
-  // Remove old listeners cleanly by replacing element (or just reassign)
   document.onkeydown=onKey;
+  // Canvas swipe (always attached for keyboard-only mode too)
   canvas.ontouchstart=onTouchStart;
   canvas.ontouchend=onTouchEnd;
+  // Swipe zone (shown when dpad=disabled)
+  const sz=document.getElementById('swipeZone');
+  sz.ontouchstart=onTouchStart;
+  sz.ontouchend=onTouchEnd;
 }
 function onKey(e){
   const map={ArrowUp:[0,-1],ArrowDown:[0,1],ArrowLeft:[-1,0],ArrowRight:[1,0],
@@ -692,11 +826,18 @@ function onKey(e){
   if(v){e.preventDefault();setDir(v[0],v[1]);}
   if(e.key===' ')togglePause();
 }
-function onTouchStart(e){touchStartX=e.touches[0].clientX;touchStartY=e.touches[0].clientY;}
+function onTouchStart(e){
+  e.preventDefault();
+  touchStartX=e.touches[0].clientX;touchStartY=e.touches[0].clientY;
+}
 function onTouchEnd(e){
+  e.preventDefault();
   const dx=e.changedTouches[0].clientX-touchStartX;
   const dy=e.changedTouches[0].clientY-touchStartY;
-  if(Math.abs(dx)>Math.abs(dy))setDir(dx>0?1:-1,0);else setDir(0,dy>0?1:-1);
+  const minSwipe=20;
+  if(Math.abs(dx)<minSwipe&&Math.abs(dy)<minSwipe)return;
+  if(Math.abs(dx)>Math.abs(dy))setDir(dx>0?1:-1,0);
+  else setDir(0,dy>0?1:-1);
 }
 function setDir(dx,dy){
   if(dx===1&&dir.x===-1)return;if(dx===-1&&dir.x===1)return;
@@ -707,9 +848,13 @@ function setDir(dx,dy){
 // ══════════════════════════════════════════════════════
 //  PAUSE / QUIT / END
 // ══════════════════════════════════════════════════════
+function setPauseBtns(t){
+  document.getElementById('pauseBtnL').textContent=t;
+  document.getElementById('pauseBtnR').textContent=t;
+}
 function togglePause(){
   isPaused=!isPaused;
-  document.getElementById('pauseBtn').textContent=isPaused?'▶ Resume':'⏸ Pause';
+  setPauseBtns(isPaused?'▶':'⏸');
   if(isPaused)showOverlay('pauseOverlay');else hideOverlay('pauseOverlay');
 }
 function confirmQuit(){isPaused=true;showOverlay('quitOverlay');}
@@ -742,16 +887,11 @@ function showToast(msg){
 }
 
 // ══════════════════════════════════════════════════════
-//  MUSIC  — 5 tracks, played in random order
+//  MUSIC
 // ══════════════════════════════════════════════════════
-let musicOn=false;
-let audioCtx=null;        // created fresh each time music starts
-let musicGain=null;       // master gain node for instant mute
-let musicTimeout=null;
-let musicPlaying=false;   // guard against overlapping playNextTrack calls
-let currentTrackIdx=-1;
+let musicOn=false,audioCtx=null,musicGain=null,musicTimeout=null;
+let musicPlaying=false,currentTrackIdx=-1;
 const BEAT=0.18;
-
 const TRACKS=[
   {name:'Twinkle',type:'sine',vol:.09,notes:[
     [523,1],[523,1],[784,1],[784,1],[880,1],[880,1],[784,2],
@@ -793,13 +933,11 @@ const TRACKS=[
     [587,.5],[659,.5],[784,.5],[880,.5],[784,.5],[659,.5],[523,2],
   ]},
 ];
-
 function getNextTrackIdx(){
   let idx;
   do{idx=Math.floor(Math.random()*TRACKS.length);}while(idx===currentTrackIdx&&TRACKS.length>1);
   currentTrackIdx=idx;return idx;
 }
-
 function toggleMusic(){
   musicOn=!musicOn;
   const btn=document.getElementById('musicToggle');
@@ -807,139 +945,84 @@ function toggleMusic(){
   btn.classList.toggle('on',musicOn);
   if(musicOn)startMusic();else stopMusic();
 }
-
 function startMusic(){
-  if(musicPlaying)return;           // already running
+  if(musicPlaying)return;
   if(musicTimeout){clearTimeout(musicTimeout);musicTimeout=null;}
-
-  // Always create a fresh AudioContext — never reuse a closed one,
-  // and don't reuse a suspended one (state machine is unreliable cross-browser)
   try{
     audioCtx=new(window.AudioContext||window.webkitAudioContext)();
     musicGain=audioCtx.createGain();
     musicGain.gain.value=1;
     musicGain.connect(audioCtx.destination);
-  }catch(err){
-    console.warn('AudioContext creation failed:',err);
-    return;
-  }
-
-  // resume() is required on some browsers even for a brand-new context
-  // It returns a Promise — wait for it before scheduling notes
-  const ready = audioCtx.state==='suspended' ? audioCtx.resume() : Promise.resolve();
-  ready.then(()=>{
-    if(!musicOn)return;   // user may have toggled off while we awaited
-    musicPlaying=true;
-    playNextTrack();
-  }).catch(err=>console.warn('AudioContext resume failed:',err));
+  }catch(err){console.warn('AudioContext failed:',err);return;}
+  const ready=audioCtx.state==='suspended'?audioCtx.resume():Promise.resolve();
+  ready.then(()=>{if(!musicOn)return;musicPlaying=true;playNextTrack();})
+       .catch(err=>console.warn('AudioContext resume failed:',err));
 }
-
 function stopMusic(){
   musicPlaying=false;
   if(musicTimeout){clearTimeout(musicTimeout);musicTimeout=null;}
-
   if(!audioCtx)return;
-
-  // Ramp master gain to 0 immediately so oscillators go silent
   try{
     const now=audioCtx.currentTime;
     musicGain.gain.cancelScheduledValues(now);
     musicGain.gain.setValueAtTime(musicGain.gain.value||1,now);
     musicGain.gain.linearRampToValueAtTime(0,now+0.04);
   }catch(e){}
-
-  // Close the context entirely after the ramp — this stops all DSP threads
-  // We'll create a fresh one next time startMusic() is called
-  setTimeout(()=>{
-    try{audioCtx.close();}catch(e){}
-    audioCtx=null;
-    musicGain=null;
-  },80);
+  setTimeout(()=>{try{audioCtx.close();}catch(e){}audioCtx=null;musicGain=null;},80);
 }
-
 function playNextTrack(){
   if(!musicOn||!musicPlaying||!audioCtx||audioCtx.state==='closed')return;
-
   const track=TRACKS[getNextTrackIdx()];
-  let t=audioCtx.currentTime+0.05;
-  let totalDur=0;
-
+  let t=audioCtx.currentTime+0.05,totalDur=0;
   try{
-    // Restore master gain in case it was ramped down (e.g. re-enable)
     musicGain.gain.cancelScheduledValues(t);
     musicGain.gain.setValueAtTime(1,t);
-
     const tGain=audioCtx.createGain();
     tGain.gain.value=track.vol;
     tGain.connect(musicGain);
-
     track.notes.forEach(([freq,beats])=>{
       const dur=beats*BEAT;
       if(freq>0){
-        const o=audioCtx.createOscillator();
-        const g=audioCtx.createGain();
-        o.type=track.type;
-        o.frequency.setValueAtTime(freq,t);
-        g.gain.setValueAtTime(0,t);
-        g.gain.linearRampToValueAtTime(1,t+0.02);
-        g.gain.setValueAtTime(1,t+dur*0.6);
-        g.gain.linearRampToValueAtTime(0,t+dur-0.01);
-        o.connect(g);g.connect(tGain);
-        o.start(t);o.stop(t+dur);
+        const o=audioCtx.createOscillator(),g=audioCtx.createGain();
+        o.type=track.type;o.frequency.setValueAtTime(freq,t);
+        g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(1,t+.02);
+        g.gain.setValueAtTime(1,t+dur*.6);g.gain.linearRampToValueAtTime(0,t+dur-.01);
+        o.connect(g);g.connect(tGain);o.start(t);o.stop(t+dur);
       }
       t+=dur;totalDur+=dur;
     });
-  }catch(err){
-    console.warn('Music scheduling error:',err);
-    musicPlaying=false;return;
-  }
-
-  const loopMs=(totalDur+0.35)*1000;
-  musicTimeout=setTimeout(()=>{
-    musicTimeout=null;
-    if(musicOn&&musicPlaying)playNextTrack();
-  },loopMs);
+  }catch(err){console.warn('Music error:',err);musicPlaying=false;return;}
+  musicTimeout=setTimeout(()=>{musicTimeout=null;if(musicOn&&musicPlaying)playNextTrack();},(totalDur+.35)*1000);
 }
 
-// ══════════════════════════════════════════════════════
-//  SFX — own AudioContext, completely independent of music
-// ══════════════════════════════════════════════════════
-let sfxAudioCtx=null;
-function getSfxCtx(){
+// SFX
+let sfxCtx=null;
+function getSfx(){
   try{
-    if(!sfxAudioCtx||sfxAudioCtx.state==='closed')
-      sfxAudioCtx=new(window.AudioContext||window.webkitAudioContext)();
-    if(sfxAudioCtx.state==='suspended')sfxAudioCtx.resume();
-    return sfxAudioCtx;
+    if(!sfxCtx||sfxCtx.state==='closed')sfxCtx=new(window.AudioContext||window.webkitAudioContext)();
+    if(sfxCtx.state==='suspended')sfxCtx.resume();
+    return sfxCtx;
   }catch(e){return null;}
 }
 function playSuccess(){
-  const ac=getSfxCtx();if(!ac)return;
-  try{
-    const freqs=[523,659,784,1047];let t=ac.currentTime;
-    freqs.forEach(f=>{
-      const o=ac.createOscillator(),g=ac.createGain();
+  const ac=getSfx();if(!ac)return;
+  try{const freqs=[523,659,784,1047];let t=ac.currentTime;
+    freqs.forEach(f=>{const o=ac.createOscillator(),g=ac.createGain();
       o.frequency.value=f;o.type='sine';
       g.gain.setValueAtTime(.15,t);g.gain.exponentialRampToValueAtTime(.001,t+.18);
-      o.connect(g);g.connect(ac.destination);o.start(t);o.stop(t+.2);t+=.08;
-    });
-  }catch(e){}
+      o.connect(g);g.connect(ac.destination);o.start(t);o.stop(t+.2);t+=.08;});}catch(e){}
 }
 function playFail(){
-  const ac=getSfxCtx();if(!ac)return;
-  try{
-    const freqs=[220,200,180];let t=ac.currentTime;
-    freqs.forEach(f=>{
-      const o=ac.createOscillator(),g=ac.createGain();
+  const ac=getSfx();if(!ac)return;
+  try{const freqs=[220,200,180];let t=ac.currentTime;
+    freqs.forEach(f=>{const o=ac.createOscillator(),g=ac.createGain();
       o.frequency.value=f;o.type='sawtooth';
       g.gain.setValueAtTime(.12,t);g.gain.exponentialRampToValueAtTime(.001,t+.2);
-      o.connect(g);g.connect(ac.destination);o.start(t);o.stop(t+.22);t+=.1;
-    });
-  }catch(e){}
+      o.connect(g);g.connect(ac.destination);o.start(t);o.stop(t+.22);t+=.1;});}catch(e){}
 }
 
 // ══════════════════════════════════════════════════════
-//  ANIMATION LOOP (food bounce while playing)
+//  ANIMATION LOOP
 // ══════════════════════════════════════════════════════
 function animLoop(){
   if(gameInterval&&!isPaused)drawFrame();
