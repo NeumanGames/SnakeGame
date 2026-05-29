@@ -4,7 +4,7 @@
 
 > Guide your snake around the board to collect numbers, letters, or shapes **in the correct order** — and watch your snake grow into a colorful, learning-filled trail!
 
-[![Play Now](https://img.shields.io/badge/🎮%20Play%20Now-Learn%20%26%20Slither-22c55e?style=for-the-badge)](https://neumangames.github.io/learn-slither/)
+[![Play Now](https://img.shields.io/badge/🎮%20Play%20Now-Learn%20%26%20Slither-22c55e?style=for-the-badge)](https://snakegame.neumangames.com)
 [![Ko-fi](https://img.shields.io/badge/☕%20Support-Ko--fi-ff5e5b?style=for-the-badge)](https://ko-fi.com/neumangames)
 [![Patreon](https://img.shields.io/badge/🎨%20Support-Patreon-ff424d?style=for-the-badge)](https://patreon.com/NeumanGames)
 
@@ -125,13 +125,13 @@ No frameworks. No dependencies. No build step. Just open `index.html` in any mod
 
 ### Play online
 
-👉 **[neumangames.github.io/learn-slither](https://neumangames.github.io/learn-slither/)**
+👉 **[snakegame.neumangames.com](https://snakegame.neumangames.com)**
 
 ### Run locally
 
 ```bash
-git clone https://github.com/NeumanGames/learn-slither.git
-cd learn-slither
+git clone https://github.com/NeumanGames/SnakeGame.git
+cd SnakeGame
 # Open index.html in your browser — no server required
 open index.html
 ```
