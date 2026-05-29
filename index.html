@@ -184,8 +184,7 @@
   footer{
     position:relative;z-index:10;
     width:100%;max-width:680px;
-    background:rgba(255,255,255,.75);
-    backdrop-filter:blur(6px);
+    background:linear-gradient(135deg,#1e3a5f 0%,#2d1b69 100%);
     border-radius:22px 22px 0 0;
     padding:16px 20px 20px;
     margin-top:auto;
@@ -193,27 +192,31 @@
   }
   .footer-title{
     font-family:'Fredoka One',cursive;
-    font-size:1.3rem;color:#065f46;
+    font-size:1.3rem;color:white;
     margin-bottom:2px;
   }
-  .footer-tagline{font-size:.8rem;color:#6b7280;margin-bottom:12px;}
-  .footer-btns{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:12px;}
+  .footer-tagline{font-size:.8rem;color:rgba(255,255,255,.6);margin-bottom:14px;}
+  .footer-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:14px;}
   .footer-btn{
-    display:inline-flex;align-items:center;gap:6px;
-    padding:8px 16px;border-radius:50px;border:none;cursor:pointer;
-    font-family:'Fredoka One',cursive;font-size:.88rem;
-    text-decoration:none;transition:transform .12s,box-shadow .12s;
-    box-shadow:0 3px 0 rgba(0,0,0,.15);
+    display:inline-flex;align-items:center;gap:7px;
+    padding:10px 22px;border-radius:50px;cursor:pointer;
+    font-family:'Fredoka One',cursive;font-size:1rem;
+    text-decoration:none;color:white;
+    background:rgba(255,255,255,0.12);
+    border:2px solid rgba(150,185,255,0.5);
+    box-shadow:0 2px 8px rgba(0,0,0,0.2);
+    transition:transform .12s,box-shadow .12s,background .12s;
+    letter-spacing:.3px;
   }
-  .footer-btn:hover{transform:translateY(-2px);}
+  .footer-btn:hover{transform:translateY(-2px);background:rgba(255,255,255,0.22);box-shadow:0 5px 14px rgba(0,0,0,0.28);}
   .footer-btn:active{transform:translateY(1px);}
-  .btn-kofi{background:#ff5e5b;color:white;}
-  .btn-patreon{background:#ff424d;color:white;}
-  .btn-github{background:#24292e;color:white;}
-  .footer-copy{font-size:.72rem;color:#9ca3af;line-height:1.6;}
-  .footer-copy a{color:#6b7280;text-decoration:none;}
+  .btn-kofi{}
+  .btn-patreon{border-color:rgba(255,200,80,0.65);}
+  .btn-github{}
+  .footer-copy{font-size:.72rem;color:rgba(255,255,255,.45);line-height:1.6;}
+  .footer-copy a{color:rgba(255,255,255,.65);text-decoration:none;}
   .footer-copy a:hover{text-decoration:underline;}
-  .footer-divider{border:none;border-top:1px solid #e5e7eb;margin:10px 0;}
+  .footer-divider{border:none;border-top:1px solid rgba(255,255,255,.15);margin:10px 0;}
 </style>
 </head>
 <body>
@@ -433,14 +436,14 @@
   <div class="footer-title">🐍 Learn &amp; Slither!</div>
   <div class="footer-tagline">A free preschool learning game by NeumanGames™</div>
   <div class="footer-btns">
+    <a class="footer-btn btn-github" href="README.md" target="_blank" rel="noopener">
+      ❓ How to Use
+    </a>
     <a class="footer-btn btn-kofi" href="https://ko-fi.com/neumangames" target="_blank" rel="noopener">
-      ☕ Ko-fi
+      🎁 Donate
     </a>
     <a class="footer-btn btn-patreon" href="https://patreon.com/NeumanGames" target="_blank" rel="noopener">
-      🎨 Patreon
-    </a>
-    <a class="footer-btn btn-github" href="https://github.com/NeumanGames" target="_blank" rel="noopener">
-      🐙 GitHub
+      ⭐ Join Patreon
     </a>
   </div>
   <hr class="footer-divider">
